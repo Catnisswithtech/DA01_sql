@@ -46,7 +46,7 @@ ORDER BY employee_id ASC;
 --Ex9
 SELECT product_id FROM Products
 WHERE low_fats = 'Y'
-AND recylable = 'Y'
+AND recyclable = 'Y'
 --Ex10
 SELECT name
 FROM Customer
