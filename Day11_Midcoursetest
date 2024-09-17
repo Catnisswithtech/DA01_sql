@@ -1,2 +1,65 @@
 --Ex1
-
+select COUNTRY.CONTINENT,floor(avg(CITY.POPULATION))
+from CITY,COUNTRY
+where CITY.CountryCode=COUNTRY.Code
+group by COUNTRY.CONTINENT;
+--Ex 2
+SELECT 
+  ROUND(COUNT(texts.email_id)::DECIMAL
+    /COUNT(DISTINCT emails.email_id),2) AS activation_rate
+FROM emails
+LEFT JOIN texts
+  ON emails.email_id = texts.email_id
+  AND texts.signup_action = 'Confirmed';  
+--Ex3
+SELECT 
+  age.age_bucket, 
+  SUM(activities.time_spent) FILTER (WHERE activities.activity_type = 'send')/
+    SUM(activities.time_spent) AS send_perc, 
+  SUM(activities.time_spent) FILTER (WHERE activities.activity_type = 'open')/
+    SUM(activities.time_spent) AS open_perc
+FROM activities
+INNER JOIN age_breakdown AS age 
+  ON activities.user_id = age.user_id 
+WHERE activities.activity_type IN ('send', 'open') 
+GROUP BY age.age_bucket;
+--Ex 5
+SELECT
+    E.employee_id,
+    E.name,
+    COUNT(*) AS reports_count,
+    ROUND(AVG(E2.age)) AS average_age
+FROM
+    Employees E
+INNER JOIN Employees E2 ON E.employee_id = E2.reports_to
+GROUP BY
+    E.employee_id, E.name
+HAVING
+    COUNT(*) > 0
+ORDER BY
+    E.employee_id;
+--Ex 4
+SELECT 
+  customers.customer_id, 
+  COUNT(DISTINCT products.product_category) AS product_count
+FROM customer_contracts AS customers
+INNER JOIN products 
+  ON customers.product_id = products.product_id
+GROUP BY customers.customer_id;
+--Ex 6 --- câu này e ko bít sai ở đâu anh Kiên ơi :")
+SELECT
+    P.product_name,
+    SUM(O.unit) AS unit
+FROM
+    Products P
+INNER JOIN Orders O ON P.product_id = O.product_id
+WHERE
+    O.order_date BETWEEN '2020-02-01' AND '2020-02-29'
+GROUP BY P.product_name;
+HAVING SUM(O.unit) >= 100; 
+--Ex 7
+SELECT p.page_id
+FROM pages p
+LEFT JOIN page_likes pl ON p.page_id = pl.page_id
+WHERE pl.page_id IS NULL
+ORDER BY p.page_id ASC;
