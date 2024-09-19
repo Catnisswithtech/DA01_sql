@@ -55,7 +55,7 @@ FROM
 INNER JOIN Orders O ON P.product_id = O.product_id
 WHERE
     O.order_date BETWEEN '2020-02-01' AND '2020-02-29'
-GROUP BY P.product_name;
+GROUP BY P.product_name
 HAVING SUM(O.unit) >= 100; 
 --Ex 7
 SELECT p.page_id
@@ -63,3 +63,5 @@ FROM pages p
 LEFT JOIN page_likes pl ON p.page_id = pl.page_id
 WHERE pl.page_id IS NULL
 ORDER BY p.page_id ASC;
+--MID-COURSE TEST
+
