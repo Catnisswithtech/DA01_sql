@@ -63,5 +63,60 @@ FROM pages p
 LEFT JOIN page_likes pl ON p.page_id = pl.page_id
 WHERE pl.page_id IS NULL
 ORDER BY p.page_id ASC;
---MID-COURSE TEST
+----MID-COURSE TEST
+--Question 1:
+SELECT MIN(DISTINCT replacement_cost) AS min_replacement_cost
+FROM film;
+--Question 2:
+SELECT COUNT(*) AS low_cost_films
+FROM film
+WHERE replacement_cost BETWEEN 9.99 AND 19.99;
+--Question 3:
+SELECT f.title, f.length, c.name AS category_name
+FROM film f
+JOIN film_category fc ON f.film_id = fc.film_id
+JOIN category c ON fc.category_id = c.category_id
+WHERE c.name IN ('Drama', 'Sports')
+ORDER BY f.length DESC
+LIMIT 1;
+--Question 4:
+SELECT c.name AS category_name, COUNT(*) AS film_count
+FROM film f
+JOIN film_category fc ON f.film_id = fc.film_id
+JOIN category c ON fc.category_id = c.category_id
+GROUP BY c.name
+ORDER BY film_count DESC
+LIMIT 1;
+--Question 5:
+SELECT a.first_name, a.last_name, COUNT(*) AS film_count
+FROM actor a
+JOIN film_actor fa ON a.actor_id = fa.actor_id
+GROUP BY a.actor_id
+ORDER BY film_count DESC
+LIMIT 1;
+--Question 6:
+SELECT COUNT(*) AS unused_addresses
+FROM address a
+LEFT JOIN customer c ON a.address_id = c.address_id
+WHERE c.customer_id IS NULL;
+--Question 7:
+SELECT ci.city, SUM(p.amount) AS total_revenue
+FROM payment p
+JOIN customer cu ON p.customer_id = cu.customer_id
+JOIN address a ON cu.address_id = a.address_id
+JOIN city ci ON a.city_id = ci.city_id
+GROUP BY ci.city
+ORDER BY total_revenue DESC
+LIMIT 1;
+--Question 8:
+SELECT CONCAT(ci.city, ', ', co.country) AS city_country, SUM(p.amount) AS total_revenue
+FROM payment p
+JOIN customer cu ON p.customer_id = cu.customer_id
+JOIN address a ON cu.address_id = a.address_id
+JOIN city ci ON a.city_id = ci.city_id
+JOIN country co ON ci.country_id = co.country_id
+GROUP BY ci.city, co.country
+ORDER BY total_revenue DESC
+LIMIT 1;
+
 
